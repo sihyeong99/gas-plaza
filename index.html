@@ -6,19 +6,19 @@
 <title>점곡 기체 광장</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 <style>
 /* 블록 장난감 느낌: 진한 남색 테두리 + 아래로 두꺼운 그림자, 기체마다 고유한 색 */
 :root{
   --ink:#1b2340; --paper:#fffdf5; --sun:#ffc824; --grass:#4fbf4a; --hot:#ff4f6e; --muted:#5d6685;
-  --display:"Jua","Malgun Gothic",sans-serif; --body:"Gowun Dodum","Malgun Gothic",sans-serif;
+  --display:"Jua","Malgun Gothic",sans-serif; --body:var(--display);
   color-scheme:light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;margin:0;background:#8fd8ff;overflow:hidden;font-family:var(--body);color:var(--ink);user-select:none;-webkit-user-select:none}
+html,body{height:100%;margin:0;background:#8fd8ff;overflow:hidden;color:var(--ink);user-select:none;-webkit-user-select:none}
 canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
 .hide{display:none!important}
-button{font-family:var(--display);color:var(--ink);cursor:pointer;border:3px solid var(--ink);background:#fff;border-radius:12px;box-shadow:0 4px 0 var(--ink);padding:9px 14px;font-size:17px;transition:transform .06s,box-shadow .06s}
+button{font-family:var(--display);font-weight:400;color:var(--ink);cursor:pointer;border:3px solid var(--ink);background:#fff;border-radius:12px;box-shadow:0 4px 0 var(--ink);padding:9px 14px;font-size:17px;transition:transform .06s,box-shadow .06s}
 button:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
 button:focus-visible,input:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
 button.go{background:var(--sun);font-size:22px;padding:12px 26px}
@@ -50,7 +50,7 @@ button:disabled{opacity:.45;cursor:default}
 .st.now{background:var(--sun);color:var(--ink);animation:pulse 1s infinite alternate}
 .st.done{color:#fff}
 @keyframes pulse{to{transform:translateY(-2px)}}
-#goal{font-size:14.5px;line-height:1.3;font-weight:700}
+#goal{font-size:14.5px;line-height:1.3}
 #topr{position:absolute;right:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:50vw}
 #topr button{font-size:15px;padding:6px 10px}
 #net{font:14px var(--display);background:var(--ink);color:#fff;border-radius:10px;padding:8px 10px;align-self:center}
@@ -65,6 +65,8 @@ button:disabled{opacity:.45;cursor:default}
 #acts button{touch-action:none;border-radius:50%}
 #bL{width:94px;height:94px;font-size:42px;padding:0;background:#b9ff3c}
 #bL.on{background:var(--hot);color:#fff}
+#bL.locked{background:#c6cbda;color:#7a8097;box-shadow:0 2px 0 var(--ink);font-size:34px;line-height:1}
+#bLn{display:block;font-size:17px;line-height:1}
 #bJ{width:78px;height:78px;font-size:19px;padding:0;background:#7fd0ff}
 #bC{width:68px;height:68px;font-size:15px;padding:0;white-space:nowrap}
 #chat{position:absolute;right:18px;bottom:190px;display:flex;flex-direction:column;gap:6px;align-items:flex-end;pointer-events:auto}
@@ -78,10 +80,10 @@ button:disabled{opacity:.45;cursor:default}
 .veil{position:fixed;inset:0;background:#1b234099;display:grid;place-items:center;z-index:30;padding:12px}
 .panel{background:var(--paper);border:5px solid var(--ink);border-radius:20px;padding:18px 22px;width:min(560px,100%);max-height:96%;overflow-y:auto;box-shadow:0 8px 0 var(--ink);display:flex;flex-direction:column;gap:10px}
 .panel h2{font-family:var(--display);font-weight:400;font-size:29px;margin:0;line-height:1.1;text-wrap:balance}
-.panel p{margin:0;font-size:19px;line-height:1.45;font-weight:700}
+.panel p{margin:0;font-size:19px;line-height:1.45}
 .tag{align-self:flex-start;font:15px var(--display);padding:3px 10px;border-radius:8px;color:#fff;border:2px solid var(--ink)}
 .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:4px;flex-wrap:wrap}
-.choice{display:block;width:100%;text-align:left;font-size:19px;margin-bottom:9px;line-height:1.3;font-family:var(--body);font-weight:700;padding:11px 14px}
+.choice{display:block;width:100%;text-align:left;font-size:19px;margin-bottom:9px;line-height:1.3;padding:11px 14px}
 .choice.no{background:#ffc9d2;opacity:.75;text-decoration:line-through}
 .choice.yes{background:#a8f0ae}
 #qinfo{font-size:17px;min-height:25px;color:#a8213c}
@@ -89,7 +91,7 @@ button:disabled{opacity:.45;cursor:default}
 #gamebox .panel{width:min(780px,100%);padding:10px 14px;gap:6px}
 #gamebox h2{font-size:24px}
 #gc{width:100%;aspect-ratio:720/420;background:#000;border:3px solid var(--ink);border-radius:10px;touch-action:none;display:block}
-#gsay{font-size:17px;font-weight:700;min-height:24px;line-height:1.3}
+#gsay{font-size:17px;min-height:24px;line-height:1.3}
 #gamebox .bar{display:flex;gap:10px;align-items:center;justify-content:space-between}
 #gsay{flex:1}
 #gNext{white-space:nowrap;font-size:19px}
@@ -117,9 +119,9 @@ button:disabled{opacity:.45;cursor:default}
   <div id="acts">
     <button id="bC">말하기</button>
     <button id="bJ">점프</button>
-    <button id="bL" title="L 키">L</button>
+    <button id="bL">L<span id="bLn"></span></button>
   </div>
-  <div id="hint">방향키나 W A S D로 걷기 · 스페이스 점프 · L 춤 · 화면을 끌면 시점 돌리기</div>
+  <div id="hint">방향키나 W A S D로 걷기, 스페이스 점프, 화면을 끌면 시점 돌리기</div>
   <div id="toast"></div>
 </div>
 
@@ -177,7 +179,7 @@ const TEST=location.search.includes('test');
 const GASES=[
 {id:'n',name:'질소',color:'#2f7bf0',place:'질소 과자 공장',
  prop:'식품의 내용물이 쉽게 변하지 않게 합니다. 화재가 나거나 폭발할 위험이 적습니다.',
- use:'과자, 분유, 견과류 포장 · 비행기 타이어',
+ use:'과자, 분유, 견과류 포장, 비행기 타이어',
  items:[
   {k:'snack',t:'과자 봉지',d:'과자 봉지 속에는 질소가 들어 있습니다. 과자가 쉽게 변하지 않고, 부서지지 않게 지켜 줍니다.'},
   {k:'milk',t:'분유와 견과류',d:'분유와 견과류를 포장할 때도 질소를 이용합니다. 내용물이 쉽게 변하지 않습니다.'},
@@ -190,7 +192,7 @@ const GASES=[
   {q:'화재나 폭발 위험이 적어서 질소를 채우는 것은 무엇일까요?',a:'비행기 타이어',w:['광고판','탄산음료']  ,e:'비행기 타이어를 채우는 데 질소를 이용합니다.'}]},
 {id:'o',name:'산소',color:'#16a9a0',place:'산소 구조대',
  prop:'숨을 쉴 때 필요합니다.',
- use:'산소 캔 · 응급 환자의 산소 호흡 장치 · 소방관과 잠수부의 공기통',
+ use:'산소 캔, 응급 환자의 산소 호흡 장치, 소방관과 잠수부의 공기통',
  items:[
   {k:'can',t:'산소 캔',d:'높은 곳에서 산소가 부족할 때 산소를 넣은 캔을 이용합니다.'},
   {k:'mask',t:'산소 호흡 장치',d:'응급 환자를 치료하는 산소 호흡 장치에 산소를 이용합니다. 산소는 숨을 쉴 때 필요하기 때문입니다.'},
@@ -203,7 +205,7 @@ const GASES=[
   {q:'공기와 산소는 같은 기체일까요?',a:'아닙니다. 공기에는 질소, 산소 같은 여러 기체가 섞여 있습니다.',w:['네, 공기는 곧 산소입니다.','공기에는 산소가 전혀 없습니다.'],e:'산소는 공기에 섞여 있는 여러 기체 가운데 하나입니다.'}]},
 {id:'c',name:'이산화 탄소',color:'#e2582c',place:'이산화 탄소 소방서',
  prop:'물에 녹아 톡 쏘는 느낌을 냅니다. 물질이 타는 것을 막습니다.',
- use:'탄산음료 · 소화기 · 드라이아이스',
+ use:'탄산음료, 소화기, 드라이아이스',
  items:[
   {k:'soda',t:'탄산음료',d:'이산화 탄소는 물에 녹아 톡 쏘는 느낌을 냅니다. 그래서 탄산음료 재료로 이용합니다.'},
   {k:'ext',t:'소화기',d:'이산화 탄소는 물질이 타는 것을 막습니다. 그래서 소화기 재료로 이용합니다.'},
@@ -216,7 +218,7 @@ const GASES=[
   {q:'음식물을 차갑게 유지하는 드라이아이스는 어떤 기체로 만들까요?',a:'이산화 탄소',w:['헬륨','산소']  ,e:'고체 상태의 이산화 탄소가 드라이아이스입니다.'}]},
 {id:'h',name:'헬륨',color:'#d6409f',place:'헬륨 풍선 마당',
  prop:'공기보다 위로 뜹니다.',
- use:'풍선 · 광고기구 · 기상 관측 풍선',
+ use:'풍선, 광고기구, 기상 관측 풍선',
  items:[
   {k:'balloon',t:'풍선',d:'헬륨은 공기보다 위로 뜹니다. 그래서 헬륨을 넣은 풍선은 하늘로 올라갑니다.'},
   {k:'blimp',t:'광고기구',d:'광고기구를 공중에 띄우는 데에도 헬륨을 이용합니다.'},
@@ -229,7 +231,7 @@ const GASES=[
   {q:'“헬륨은 식품을 신선하게 보존하는 데 이용된다.” 맞는 말일까요?',a:'틀립니다.',w:['맞습니다.'],e:'식품을 포장할 때 이용하는 기체는 질소입니다.'}]},
 {id:'e',name:'네온',color:'#8a3df0',place:'네온 불빛 거리',
  prop:'특유의 빛을 냅니다.',
- use:'조명 기구 · 광고판',
+ use:'조명 기구, 광고판',
  items:[
   {k:'lamp',t:'조명 기구',d:'네온은 특유의 빛을 냅니다. 그래서 조명 기구에 이용합니다.'},
   {k:'board',t:'광고판',d:'눈에 잘 띄는 빛을 내는 광고판에도 네온을 이용합니다.'},
@@ -294,16 +296,21 @@ function sph(p,r,col,x=0,y=0,z=0,glow){const m=new THREE.Mesh(G.sph,mat(col,glow
 function tor(p,r,t,col,x=0,y=0,z=0,glow){const m=new THREE.Mesh(new THREE.TorusGeometry(r,t,8,24),mat(col,glow));m.position.set(x,y,z);p.add(m);return m}
 
 function textSprite(text,o={}){
-  const fs=o.size||64,pad=o.pad??22,font=`${fs}px Jua, "Malgun Gothic", sans-serif`;
-  const cv=document.createElement('canvas'),c=cv.getContext('2d');
-  c.font=font;const w=Math.ceil(c.measureText(text).width)+pad*2,h=Math.ceil(fs*1.35)+pad;
-  cv.width=w;cv.height=h;c.font=font;c.textAlign='center';c.textBaseline='middle';
-  if(o.bg){c.fillStyle=o.bg;c.strokeStyle=o.border||'#1b2340';c.lineWidth=7;rr(c,4,4,w-8,h-8,18);c.fill();c.stroke()}
-  if(o.stroke){c.lineJoin='round';c.lineWidth=10;c.strokeStyle=o.stroke;c.strokeText(text,w/2,h/2+3)}
-  c.fillStyle=o.color||'#1b2340';c.fillText(text,w/2,h/2+3);
-  const tx=new THREE.CanvasTexture(cv);tx.anisotropy=2;
-  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tx,transparent:true,depthWrite:false,fog:false}));
-  const hh=o.h||1;s.scale.set(hh*w/h,hh,1);s.renderOrder=5;return s;
+  const fs=o.size||64,pad=o.pad??22,font=`${fs}px Jua, "Malgun Gothic", sans-serif`,hh=o.h||1;
+  const tx=new THREE.CanvasTexture(document.createElement('canvas'));tx.anisotropy=2;
+  const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tx,transparent:true,depthWrite:false,fog:false}));s.renderOrder=5;
+  const paint=()=>{
+    const cv=document.createElement('canvas'),c=cv.getContext('2d');
+    c.font=font;const w=Math.ceil(c.measureText(text).width)+pad*2,h=Math.ceil(fs*1.35)+pad;
+    cv.width=w;cv.height=h;c.font=font;c.textAlign='center';c.textBaseline='middle';
+    if(o.bg){c.fillStyle=o.bg;c.strokeStyle=o.border||'#1b2340';c.lineWidth=7;rr(c,4,4,w-8,h-8,18);c.fill();c.stroke()}
+    if(o.stroke){c.lineJoin='round';c.lineWidth=10;c.strokeStyle=o.stroke;c.strokeText(text,w/2,h/2+3)}
+    c.fillStyle=o.color||'#1b2340';c.fillText(text,w/2,h/2+3);
+    tx.dispose();tx.image=cv;tx.needsUpdate=true;s.scale.set(hh*w/h,hh,1);
+  };
+  paint();
+  if(document.fonts&&!document.fonts.check(font,text))document.fonts.load(font,text).then(paint).catch(()=>{});
+  return s;
 }
 function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
 
@@ -581,7 +588,9 @@ function step(dt,now){
   if(star){if(!starGot&&Math.hypot(me.x-star.position.x,me.z-star.position.z)<2&&me.y>5){starGot=true;star.visible=false;toast('꼭대기에 올랐습니다! 대단합니다.');sfx([660,880,1320])}}
 }
 function jump(){if(me.onGround&&!modal&&ui==='play'){me.vy=S.done[3]?12.6:9.6;me.onGround=false;if(me.dance)setDance(false);sfx([440],.05,'square')}}
-function setDance(v){me.dance=v;$('bL').classList.toggle('on',v)}
+const danceOK=()=>S.done.every(Boolean);
+function setDance(v){if(v&&!danceOK()){toast(`미션 6개를 모두 마치면 L 춤을 출 수 있습니다. (${S.done.filter(Boolean).length}/6)`);sfx([220,170]);return}me.dance=v;$('bL').classList.toggle('on',v)}
+function refreshDanceBtn(){const ok=danceOK(),b=$('bL');b.classList.toggle('locked',!ok);$('bLn').textContent=ok?'':`${S.done.filter(Boolean).length}/6`;b.setAttribute('aria-label',ok?'L 춤 추기':'L 춤 잠김, 미션을 모두 마치면 열립니다');if(!ok&&me.dance)setDance(false)}
 
 /* ───────── 소리 ───────── */
 let ac=null,mg=null,muted=false,seq=0,nextT=0,musicGain=null;
@@ -678,12 +687,12 @@ function refreshSteps(){
   GASES.forEach((g,i)=>{const d=document.createElement('div');d.className='st'+(S.done[i]?' done':i===now?' now':'');d.textContent=S.done[i]?'★':i+1;if(S.done[i])d.style.background=g.color;$('stepchips').appendChild(d)});
   ZONES.forEach((Z,i)=>{const open=i===now;Z.lock.visible=i>now;Z.beacon.visible=open;Z.doneMark.visible=!!S.done[i];
     Z.items.forEach(it=>{it.lb.visible=i<=now;it.mark.visible=open&&!it.found})});
-  setGoal();setGear(me.char,badgeBits());setTag(me.char,S.name,badgeBits());
+  setGoal();refreshDanceBtn();setGear(me.char,badgeBits());setTag(me.char,S.name,badgeBits());
   $('compass').classList.toggle('hide',now>=6);
 }
 function setGoal(){
   const n=stepNow();
-  if(n>=6){$('goal').textContent='모든 단계를 마쳤습니다. 광장에서 친구들과 함께 춤춰 봅시다!';return}
+  if(n>=6){$('goal').textContent='모든 단계를 마쳤습니다. L 버튼이 켜졌으니 광장에서 함께 춤춰 봅시다!';return}
   const Z=ZONES[n],f=Z.items.filter(i=>i.found).length;
   $('goal').textContent=Z.inside||f?`${n+1}단계 ${Z.gas.name}: 빨간 느낌표 물건을 찾아봅시다 (${f}/3)`:`${n+1}단계: 화살표를 따라 ${Z.gas.place}에 가 봅시다`;
 }
@@ -719,7 +728,7 @@ function startGame(Z){
 }
 function startQuiz(Z){
   let n=0;const gas=Z.gas;$('qTag').style.background=gas.color;
-  const ask=()=>{const q=gas.quiz[n];$('qTag').textContent=`${Z.i+1}단계 ${gas.name} · 문제 ${n+1}/${gas.quiz.length}`;$('qText').textContent=q.q;$('qinfo').textContent='';$('qinfo').className='';$('qNext').classList.add('hide');
+  const ask=()=>{const q=gas.quiz[n];$('qTag').textContent=`${Z.i+1}단계 ${gas.name}, 문제 ${n+1}/${gas.quiz.length}`;$('qText').textContent=q.q;$('qinfo').textContent='';$('qinfo').className='';$('qNext').classList.add('hide');
     const box=$('qChoices');box.innerHTML='';[q.a,...q.w].map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).forEach(([,v])=>{
       const b=document.createElement('button');b.className='choice';b.textContent=v;b.onclick=()=>{
         if(v===q.a){b.classList.add('yes');sfx([660,880,1175]);box.querySelectorAll('button').forEach(x=>x.disabled=x!==b?true:x.disabled);b.disabled=false;b.onclick=null;$('qinfo').textContent=q.e;$('qinfo').className='good';$('qNext').classList.remove('hide');$('qNext').textContent=n+1<gas.quiz.length?'다음 문제':'단계 마치기'}
@@ -893,7 +902,7 @@ function enter(){
   refreshSteps();
   if(!client&&netState==='solo'&&!enter.started){enter.started=1;netStart()}
   lastSent='';
-  if(!enter.greeted&&!S.done.some(Boolean)){enter.greeted=1;setTimeout(()=>{if(ui==='play')toast('광장에 온 것을 환영합니다! L 버튼을 누르면 함께 춤출 수 있습니다.',4000)},500)}
+  if(!enter.greeted&&!S.done.some(Boolean)){enter.greeted=1;setTimeout(()=>{if(ui==='play')toast('광장에 온 것을 환영합니다! 미션 6개를 모두 마치면 L 춤을 출 수 있습니다.',4000)},500)}
 }
 
 /* ───────── 조작 ───────── */
@@ -913,7 +922,7 @@ addEventListener('blur',()=>Object.keys(keys).forEach(k=>keys[k]=false));
  const end=e=>{if(e.pointerId===id)id=null};cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
  cv.addEventListener('wheel',e=>{e.preventDefault();camDist=Math.max(6,Math.min(22,camDist+e.deltaY*.012))},{passive:false});}
 $('bJ').addEventListener('pointerdown',e=>{e.preventDefault();jump()});
-$('bL').addEventListener('click',()=>{setDance(!me.dance);sfx([880],.04);$('bL').blur()});
+$('bL').addEventListener('click',()=>{setDance(!me.dance);if(danceOK())sfx([880],.04);$('bL').blur()});
 $('bC').addEventListener('click',()=>$('chat').classList.toggle('hide'));
 PRESETS.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{chatIdx=i;chatSeq=(chatSeq+1)%1e6;say(me.char,t);$('chat').classList.add('hide');lastSent='';clearTimeout(chatOff);chatOff=setTimeout(()=>{chatIdx=-1},4000)};$('chat').appendChild(b)});
 $('bBook').addEventListener('click',openBook);$('bookClose').addEventListener('click',()=>show('book',false));
@@ -922,7 +931,7 @@ $('bLook').addEventListener('click',openAvatar);
 $('bEnter').addEventListener('click',enter);
 $('bRand').addEventListener('click',()=>{S.look=randLook();setLook(me.char,S.look);buildOpts();save()});
 let resetArm=0;$('bReset').addEventListener('click',()=>{if(Date.now()-resetArm>3000){resetArm=Date.now();$('bReset').textContent='한 번 더 누르기';setTimeout(()=>$('bReset').textContent='새로 시작',3000);return}
-  S.done=[0,0,0,0,0,0];save();ZONES.forEach(Z=>Z.items.forEach(it=>it.found=false));$('bReset').textContent='새로 시작';$('bReset').classList.add('hide');me.x=0;me.z=16;me.yaw=Math.PI;});
+  S.done=[0,0,0,0,0,0];save();setDance(false);refreshDanceBtn();ZONES.forEach(Z=>Z.items.forEach(it=>it.found=false));$('bReset').textContent='새로 시작';$('bReset').classList.add('hide');me.x=0;me.z=16;me.yaw=Math.PI;});
 
 /* ───────── 그리기 반복 ───────── */
 function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
@@ -973,7 +982,8 @@ function boot(){
   if(TEST)window.__g={S,me,ZONES,finish,refreshSteps,peers,startGame,startQuiz,startMini,get activeGame(){return activeGame},setCam(y,p,d){camYaw=y;camPitch=p;camDist=d}};
   frame();
 }
-const fontWait=(document.fonts&&document.fonts.load)?Promise.race([Promise.all([document.fonts.load('40px Jua','기체 광장'),document.fonts.load('20px "Gowun Dodum"','기체')]),new Promise(r=>setTimeout(r,1800))]):Promise.resolve();
+const ALLTEXT=[...new Set(document.documentElement.innerHTML.match(/[\u3131-\ud7a3]/g)||[])].join('');
+const fontWait=(document.fonts&&document.fonts.load)?Promise.race([document.fonts.load('40px Jua',ALLTEXT),new Promise(r=>setTimeout(r,5000))]):Promise.resolve();
 fontWait.catch(()=>{}).then(boot);
 </script>
 </body>
