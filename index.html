@@ -11,11 +11,12 @@
 /* 블록 장난감 느낌: 진한 남색 테두리 + 아래로 두꺼운 그림자, 기체마다 고유한 색 */
 :root{
   --ink:#1b2340; --paper:#fffdf5; --sun:#ffc824; --grass:#4fbf4a; --hot:#ff4f6e; --muted:#5d6685;
-  --display:"Jua","Malgun Gothic",sans-serif; --body:var(--display);
+  --display:"Jua","Malgun Gothic",sans-serif;
   color-scheme:light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;margin:0;background:#8fd8ff;overflow:hidden;color:var(--ink);user-select:none;-webkit-user-select:none}
+button,input,table,td,th,h1,h2,b{font-family:var(--display);font-weight:400}
+html,body{height:100%;margin:0;background:#8fd8ff;overflow:hidden;font-family:var(--display);font-weight:400;color:var(--ink);user-select:none;-webkit-user-select:none}
 canvas#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
 .hide{display:none!important}
 button{font-family:var(--display);font-weight:400;color:var(--ink);cursor:pointer;border:3px solid var(--ink);background:#fff;border-radius:12px;box-shadow:0 4px 0 var(--ink);padding:9px 14px;font-size:17px;transition:transform .06s,box-shadow .06s}
@@ -36,8 +37,9 @@ button:disabled{opacity:.45;cursor:default}
 .chip.on{background:var(--sun)}
 .sw{width:32px;height:32px;padding:0;border-radius:8px;border-width:2px;box-shadow:0 2px 0 var(--ink)}
 .sw.on{outline:3px solid var(--hot);outline-offset:1px}
+#ver{font-size:13px;color:var(--muted);margin-top:auto}
 #nick{font-family:var(--display);font-size:18px;border:3px solid var(--ink);border-radius:10px;padding:7px 10px;width:100%;background:#fff;color:var(--ink);user-select:text;-webkit-user-select:text}
-.av-foot{display:flex;gap:8px;margin-top:auto;padding-top:6px;align-items:center;flex-wrap:wrap}
+.av-foot{display:flex;gap:8px;padding-top:6px;align-items:center;flex-wrap:wrap}
 .av-foot .go{flex:1}
 @media (max-width:640px){#avatar{width:100%;top:38vh;border-left:0;border-top:5px solid var(--ink)}#avatar h1{font-size:30px}}
 
@@ -65,8 +67,8 @@ button:disabled{opacity:.45;cursor:default}
 #acts button{touch-action:none;border-radius:50%}
 #bL{width:94px;height:94px;font-size:42px;padding:0;background:#b9ff3c}
 #bL.on{background:var(--hot);color:#fff}
-#bL.locked{background:#c6cbda;color:#7a8097;box-shadow:0 2px 0 var(--ink);font-size:34px;line-height:1}
-#bLn{display:block;font-size:17px;line-height:1}
+#bL.locked{background:#8d92a6;color:#e4e6ee;border-style:dashed;box-shadow:none;font-size:26px;line-height:1}
+#bLn{display:block;font-size:15px;line-height:1.15}
 #bJ{width:78px;height:78px;font-size:19px;padding:0;background:#7fd0ff}
 #bC{width:68px;height:68px;font-size:15px;padding:0;white-space:nowrap}
 #chat{position:absolute;right:18px;bottom:190px;display:flex;flex-direction:column;gap:6px;align-items:flex-end;pointer-events:auto}
@@ -130,6 +132,7 @@ button:disabled{opacity:.45;cursor:default}
   <p>나만의 캐릭터를 꾸미고 광장으로 들어가 봅시다.</p>
   <div class="row"><label for="nick">별명</label><input id="nick" maxlength="8" placeholder="진짜 이름은 쓰지 않아요" autocomplete="off"></div>
   <div id="opts"></div>
+  <div id="ver">11월 6일 3번째 판</div>
   <div class="av-foot">
     <button id="bRand">아무거나</button>
     <button id="bReset" class="hide">새로 시작</button>
@@ -590,7 +593,7 @@ function step(dt,now){
 function jump(){if(me.onGround&&!modal&&ui==='play'){me.vy=S.done[3]?12.6:9.6;me.onGround=false;if(me.dance)setDance(false);sfx([440],.05,'square')}}
 const danceOK=()=>S.done.every(Boolean);
 function setDance(v){if(v&&!danceOK()){toast(`미션 6개를 모두 마치면 L 춤을 출 수 있습니다. (${S.done.filter(Boolean).length}/6)`);sfx([220,170]);return}me.dance=v;$('bL').classList.toggle('on',v)}
-function refreshDanceBtn(){const ok=danceOK(),b=$('bL');b.classList.toggle('locked',!ok);$('bLn').textContent=ok?'':`${S.done.filter(Boolean).length}/6`;b.setAttribute('aria-label',ok?'L 춤 추기':'L 춤 잠김, 미션을 모두 마치면 열립니다');if(!ok&&me.dance)setDance(false)}
+function refreshDanceBtn(){const ok=danceOK(),b=$('bL');b.classList.toggle('locked',!ok);$('bLn').textContent=ok?'':`잠김 ${S.done.filter(Boolean).length}/6`;b.setAttribute('aria-label',ok?'L 춤 추기':'L 춤 잠김, 미션을 모두 마치면 열립니다');if(!ok&&me.dance)setDance(false)}
 
 /* ───────── 소리 ───────── */
 let ac=null,mg=null,muted=false,seq=0,nextT=0,musicGain=null;
