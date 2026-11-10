@@ -132,7 +132,7 @@ button:disabled{opacity:.45;cursor:default}
   <p>나만의 캐릭터를 꾸미고 광장으로 들어가 봅시다.</p>
   <div class="row"><label for="nick">별명</label><input id="nick" maxlength="8" placeholder="진짜 이름은 쓰지 않아요" autocomplete="off"></div>
   <div id="opts"></div>
-  <div id="ver">11월 6일 3번째 판</div>
+  <div id="ver">11월 10일 4번째 판</div>
   <div class="av-foot">
     <button id="bRand">아무거나</button>
     <button id="bReset" class="hide">새로 시작</button>
@@ -330,16 +330,23 @@ function studTex(base,dark){const cv=document.createElement('canvas');cv.width=c
 
 /* ───────── 캐릭터 ───────── */
 const faceCache={};
-function faceMat(skin,face){const k=skin+face;if(faceCache[k])return faceCache[k];
-  const cv=document.createElement('canvas');cv.width=cv.height=96;const c=cv.getContext('2d');
-  c.fillStyle=SKIN[skin];c.fillRect(0,0,96,96);c.fillStyle='#1b2340';c.strokeStyle='#1b2340';c.lineWidth=5;c.lineCap='round';
-  const eye=(x,w)=>{if(w){c.beginPath();c.moveTo(x-8,42);c.lineTo(x+8,42);c.stroke()}else{c.beginPath();c.ellipse(x,41,6,9,0,0,7);c.fill()}};
-  eye(32,0);eye(64,face===2);
-  c.beginPath();
-  if(face===0){c.arc(48,56,15,.3,Math.PI-.3);c.stroke()}
-  else if(face===1){c.moveTo(30,58);c.lineTo(66,58);c.arc(48,58,18,0,Math.PI);c.closePath();c.fillStyle='#fff';c.fill();c.stroke()}
-  else if(face===2){c.arc(50,60,11,.2,Math.PI-.5);c.stroke()}
-  else{c.ellipse(48,68,7,9,0,0,7);c.fill()}
+function faceMat(skin,face){const k=skin+'_'+face;if(faceCache[k])return faceCache[k];
+  const cv=document.createElement('canvas');cv.width=cv.height=128;const c=cv.getContext('2d');c.scale(4/3,4/3);
+  c.fillStyle=SKIN[skin];c.fillRect(0,0,96,96);c.fillStyle='#1b2340';c.strokeStyle='#1b2340';c.lineWidth=5;c.lineCap=c.lineJoin='round';
+  const dot=x=>{c.beginPath();c.ellipse(x,40,6,9,0,0,7);c.fill()};
+  const cheek=()=>{c.fillStyle='#ff8fa3aa';c.beginPath();c.ellipse(20,58,8,5,0,0,7);c.ellipse(76,58,8,5,0,0,7);c.fill();c.fillStyle='#1b2340'};
+  if(face===0){/* 웃음: 동그란 눈, 다문 입으로 방긋 */dot(32);dot(64);c.beginPath();c.arc(48,54,14,.35,Math.PI-.35);c.stroke()}
+  else if(face===1){/* 활짝: 눈을 감고 웃는 눈, 크게 벌린 입 */
+    for(const x of[32,64]){c.beginPath();c.arc(x,44,9,Math.PI+.25,-.25);c.stroke()}
+    cheek();c.beginPath();c.moveTo(26,56);c.lineTo(70,56);c.arc(48,56,22,0,Math.PI);c.closePath();c.fill();
+    c.fillStyle='#ff6b81';c.beginPath();c.ellipse(48,71,10,6,0,0,7);c.fill();c.fillStyle='#fff';c.fillRect(34,57,28,6)}
+  else if(face===2){/* 찡긋: 한쪽 눈 >, 혀 내밀기 */
+    dot(32);c.beginPath();c.moveTo(56,32);c.lineTo(70,40);c.lineTo(56,48);c.stroke();
+    c.beginPath();c.moveTo(34,60);c.quadraticCurveTo(50,70,64,56);c.stroke();c.fillStyle='#ff6b81';c.beginPath();c.ellipse(52,68,7,6,0,0,7);c.fill()}
+  else{/* 놀람: 큰 흰 눈, 올라간 눈썹, 동그란 입 */
+    for(const x of[30,66]){c.fillStyle='#fff';c.beginPath();c.arc(x,42,12,0,7);c.fill();c.stroke();c.fillStyle='#1b2340';c.beginPath();c.arc(x,43,5,0,7);c.fill();
+      c.beginPath();c.moveTo(x-11,22);c.quadraticCurveTo(x,15,x+11,22);c.stroke()}
+    c.beginPath();c.ellipse(48,70,8,11,0,0,7);c.fill()}
   return faceCache[k]=new THREE.MeshLambertMaterial({map:new THREE.CanvasTexture(cv)})}
 const blobTex=(()=>{const cv=document.createElement('canvas');cv.width=cv.height=64;const c=cv.getContext('2d');const g=c.createRadialGradient(32,32,4,32,32,31);g.addColorStop(0,'#000a');g.addColorStop(1,'#0000');c.fillStyle=g;c.fillRect(0,0,64,64);return new THREE.CanvasTexture(cv)})();
 const blobMat=new THREE.MeshBasicMaterial({map:blobTex,transparent:true,depthWrite:false,fog:false});
